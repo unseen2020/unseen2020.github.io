@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Who Are You?</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8" />
+
+		<!-- <link rel="icon" href="https://discoverthreejs.com/favicon.ico" type="image/x-icon"> -->
+
+		<link href="styles/main.css" rel="stylesheet" type="text/css">
+    <!--
+
+      Include the main three.js script.
+
+      The global variable THREE will be
+      available for use in any scripts
+      loaded after this one.
+
+    -->
+
+		<script src="js/three.js-master/build/three.js"></script>
+
+    <script src="js/three.js-master/examples/js/controls/OrbitControls.js"></script>
+
+    <script src="js/three.js-master/examples/js/loaders/GLTFLoader.js"></script>
+
+		<script src="js/three.js-master/examples/js/libs/dat.gui.min.js"></script>
+
+		<!-- <script src="js/three.js-master/examples/js/loaders/OBJLoader.js"></script> -->
+
+	</head>
+
+	<body>
+
+		<h1 class="title"></h1>
+
+		<div id="scene-container">
+			<!-- This div will hold our scene-->
+		</div>
+
+		<video id="video" width="640" height="480" autoplay></video>
+		<canvas id="canvas" width="640" height="480"></canvas>
+
+		<!--
+			Finally, include the script that
+			runs your three.js app.
+		-->
+
+		<script src="js/guirotation.js"></script>
+
+	</body>
+
+</html>

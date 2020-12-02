@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { display: block; background: red;}
+		</style>
+	</head>
+	<body>
+    <canvas id="myCanvas"></canvas>
+
+		<script src="three.js"></script>
+
+		<script src="GLTFLoader.js"></script>
+
+		<!-- <script src="OrbitControls.js"></script> -->
+		<script>
+			// Our Javascript will go here.
+
+      var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias: true});
+
+      renderer.setClearColor(0x00ff00);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      document.body.appendChild(renderer.domElement);
+
+      var camera = new THREE.PerspectiveCamera(35, window.innerWidth/window.innerHeight, 0.1, 3000);
+
+      var scene = new THREE.Scene();
+
+			var mouse = new THREE.Vector2(); 
+
+			// var controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+      var light = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(light);
+
+      var light1 = new THREE.PointLight(0xffffff, 0.5);
+      scene.add(light1);
+
+			var loader = new THREE.GLTFLoader();
+			loader.load('./unicorn/scene.gltf',  
+				( gltf ) => { 
+					gltf.scene.traverse( function ( child ) {    
+						if ( child.isMesh ) { 
+							scene.add( gltf.scene ); 
+						}
+					});
+
+					model = gltf.scene; 
+					scene.add(model); 
+					mixer = new THREE.AnimationMixer(model); 
+					gltf.animations.forEach((clip) => { 
+						mixer.clipAction(clip).play(); 
+					});   
+					mixers.push(mixer);  
+					}, 
+					( xhr ) => { 
+						// called while loading is progressing 
+						console.log( `${( xhr.loaded / xhr.total * 100 )}% loaded` ); 
+					}, 
+					( error ) => { 
+						// called when loading has errors 
+						console.error( 'An error happened', error ); 
+					}, 
+					handle_load
+				}
+		);   
+		// index++; 
+
+
+			// light1.position.set(35, window.innerWidth/window.innerHeight, 5);
+
+			var sphereSize = 1;
+			var pointLightHelper = new THREE.PointLightHelper( light1, sphereSize );
+				scene.add( pointLightHelper );
+
+      // var geometry = new THREE.CubeGeometry(100, 100, 100);
+			var geometry2 = new THREE.ConeGeometry(200, 500, 100);
+
+			var geometry = new THREE.Geometry();
+			geometry.vertices.push(
+				new THREE.Vector3(-10, 10, 0),
+				new THREE.Vector3(-10, -10, 0),
+				new THREE.Vector3(10, -10, 0)
+			);
+			geometry.faces.push( new THREE.Face3(0, 1, 2));
+
+			// var x = 0, y = 0;
+			//
+			// var heartShape = new THREE.Shape();
+			//
+			// heartShape.moveTo( x + 5, y + 5 );
+			// heartShape.bezierCurveTo( x + 5, y + 5, x + 4, y, x, y );
+			// heartShape.bezierCurveTo( x - 6, y, x - 6, y + 7,x - 6, y + 7 );
+			// heartShape.bezierCurveTo( x - 6, y + 11, x - 3, y + 15.4, x + 5, y + 19 );
+			// heartShape.bezierCurveTo( x + 12, y + 15.4, x + 16, y + 11, x + 16, y + 7 );
+			// heartShape.bezierCurveTo( x + 16, y + 7, x + 16, y, x + 10, y );
+			// heartShape.bezierCurveTo( x + 7, y, x + 5, y + 5, x + 5, y + 5 );
+
+			// var geometry = new THREE.ShapeGeometry( heartShape );
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			var mesh = new THREE.Mesh( geometry, material ) ;
+			scene.add( mesh );
+
+      var material = new THREE.MeshLambertMaterial({color: 0xf3ffe2});
+
+      var mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(0, 0, -1000);
+
+      scene.add(mesh);
+
+			// var mesh1 = new THREE.Mesh(geometry2, material);
+      // mesh1.position.set(150, 150, -1000);
+
+      // scene.add(mesh1);
+
+			var blueLight = new THREE.PointLight(0x0000ff, 0.5);
+			// blueLight.position.set(mesh1.position.x, mesh1.position.y, mesh1.position.z + 100);
+			scene.add(blueLight);
+
+      requestAnimationFrame(render);
+
+			function handle_load(gltf) {
+				mesh = gltf.scene.children[0];
+				scene.add(mesh);
+				mesh.position.z = -10;
+			}
+
+			function onMouseMove( event ) {  
+				// calculate mouse position in normalized device coordinates 
+				// (-1 to +1) for both components  
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1; 
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;  
+				console.log(mouse.x, mouse.y);
+			}
+
+			render();
+
+			var delta = 0;
+			var prevTime = Date.now();
+
+      function render() {
+				delta += 0.1;
+
+				if (mesh) {
+					mesh.rotation.y += 0.01;
+				}
+
+        // mesh.rotation.x += 0.01;
+        // mesh.rotation.y += 0.01;
+        // // mesh.rotation.z += 0.01;
+				//
+				// // mesh1.rotation.x += 0.01;
+        // mesh1.rotation.y += 0.01;
+        // mesh1.rotation.z += 0.01;
+				//
+        renderer.render(scene, camera);
+				//
+				// // controls.update();
+				//
+        requestAnimationFrame(render);
+				//
+				// blueLight.position.set(mouse.x, mouse.y);
+				// // blueLight.rotation.set(mouse.x, mouse.y);
+      }
+
+			window.addEventListener( 'mousemove', onMouseMove, false );
+
+		</script>
+	</body>
+</html>
