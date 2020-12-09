@@ -10,7 +10,7 @@ let cube, geometry1, material1;
 
 let video, videoColor, videoTexture, canvas, context;
 
-let microaggressions = ["Trigger Warning: This piece is a commentary on racial trauma.", "Sir, this line is for first class only.", "You’re so pretty for a Black girl.", "Oh, are you here on a sports scholarship? What do you play?", "* followed while shopping *", "Can I touch your hair?", "I don't see color. There is only one race, the human race.",
+let microaggressions = ["Trigger Warning: This piece is a commentary on racial trauma. Please interact with your webcam for the full effect of the piece.", "Sir, this line is for first class only.", "You’re so pretty for a Black girl.", "Oh, are you here on a sports scholarship? What do you play?", "* followed while shopping *", "Can I touch your hair?", "I don't see color. There is only one race, the human race.",
                       "You're so well-spoken!", "Can you make your hair more professional?", "* being the token Black person *", "I’m not racist. I have several Black friends.", "* clutching their purse tighter as you walk by *", "* mistaken as service worker *"];
 let counter = 0;
 let darkCounter = 0;
