@@ -67,7 +67,7 @@ function init() {
   context = canvas.getContext('2d');
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0xFFFFFF );
+  // scene.background = new THREE.Color( 0x000000 );
 
   let fontIndex = 1;
 
